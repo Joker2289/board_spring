@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="attachment">
+
+	  <!-- 첨부파일 등록 -->
+	  <insert id="insertAttachment" parameterType="attachmentVO">
+	  	insert into attachment
+	  		(file_num, notice_num, file_name, file_path)
+		values 
+			(file_num.nextval, #{notice_num}, #{file_name}, #{file_path})
+	  </insert>
+	  
+	  <!-- 첨부파일 리스트 조회 -->
+	  <select id="selectAttachmentList" resultType="attachmentVO" parameterType="String">
+	  
+	  	select * from attachment where notice_num = #{ notice_num }
+	  	
+	  </select>
+	  
+	  <!-- 첨부파일 조회 -->
+	  <select id="selectAttachment" resultType="attachmentVO" parameterType="String">
+	  
+	  	select * from attachment where file_num = #{ file_num }
+	  	
+	  </select>
+	  
+	  <!-- 첨부파일 삭제 -->
+	  <delete id="deleteAttachment" parameterType="String">
+	  	delete from attachment
+	  	 	where file_num = #{ file_num }
+	  </delete>
+	  
+</mapper>

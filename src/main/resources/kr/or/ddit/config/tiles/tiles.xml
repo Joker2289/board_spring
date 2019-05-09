@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+        <definition name="layout"  template="/WEB-INF/views/module/layout.jsp">
+        	<put-attribute name="header" value="/WEB-INF/views/module/header_D.jsp"/>
+        	<put-attribute name="left" value="/WEB-INF/views/module/side_D.jsp"/>
+        	<put-attribute name="content" value=""/>
+        </definition>
+        
+        <definition name="userAllListTiles" extends="layout">
+        	<put-attribute name="content" value="/WEB-INF/views/user/userAllListContent.jsp"/>
+        </definition>
+        
+        <definition name="userPagingListTiles" extends="layout">
+        	<put-attribute name="content" value="/WEB-INF/views/user/userPagingListContent.jsp"/>
+        </definition>
+        
+        <definition name="userPagingListAjaxTiles" extends="layout">
+        	<put-attribute name="content" value="/WEB-INF/views/user/userPagingListContentAjax.jsp"/>
+        </definition>
+        
+        <definition name="boardManagementTiles" extends="layout">
+        	<put-attribute name="content" value="/WEB-INF/views/board/boardManagement.jsp"/>
+        </definition>
+        
+        <definition name="noticeAllListTiles" extends="layout">
+        	<put-attribute name="content" value="/WEB-INF/views/notice/noticeAllList.jsp"/>
+        </definition>
+        
+        <definition name="noticeViewTiles" extends="layout">
+        	<put-attribute name="content" value="/WEB-INF/views/notice/noticeView.jsp"/>
+        </definition>
+        
+        <definition name="noticeFormTiles" extends="layout">
+        	<put-attribute name="content" value="/WEB-INF/views/notice/noticeForm.jsp"/>
+        </definition>
+        
+        <definition name="noticeUpdateTiles" extends="layout">
+        	<put-attribute name="content" value="/WEB-INF/views/notice/noticeUpdate.jsp"/>
+        </definition>
+        
+</tiles-definitions>

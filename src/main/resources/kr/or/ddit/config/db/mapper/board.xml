@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+
+	  <!-- 게시판 등록 -->
+	  <insert id="insertBoard" parameterType="boardVO">
+	  	insert into board 
+	  		(board_code, board_name)
+		values 
+			(board_code.nextval, #{board_name})
+	  </insert>
+	  
+	  <select id="getAllBoard" resultType="boardVO">
+	  	select * from board order by 1
+	  </select>
+	  
+	  <select id="searchBoard" resultType="boardVO">
+	  	select * from board where board_code=#{board_code}
+	  </select>
+	  
+	  <update id="updateBoard" parameterType="boardVO">
+	  	update board
+	  		set board_name = #{board_name},
+	  		    act_state = #{act_state}
+	    where board_code = #{board_code}
+	  </update>
+	  
+</mapper>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="notice">
+
+	  <!-- 게시글 리스트 조회 -->
+	  <select id="selectNoticeList" parameterType="pageVO" resultType="noticeVO">
+	  		select * 
+	  			from
+				(select a.*, rownum rn 
+					from
+					(
+					
+						select notice_num, parent_num, lpad(' ', 5*(level -1)) || title as title, rep_dt, content, board_code, userid, level 
+						from notice where board_code = #{ board_code } 
+						start with parent_num is null
+						connect by prior notice_num = parent_num
+						order siblings by notice_num desc
+					
+					
+						) a ) a
+						
+			where rn between (#{page}-1) * #{pageSize}+1 and #{page} * #{pageSize}
+			
+			
+			<!-- select * 
+	  			from
+				(select a.*, rownum rn 
+					from
+					(select notice.* from notice where board_code = #{ board_code } 
+					
+						order by notice_num) a ) a
+						
+			where rn between (#{page}-1) * #{pageSize}+1 and #{page} * #{pageSize} -->
+			
+			
+			
+			
+			
+	  </select>
+	  
+	  <!-- 게시글 수 조회 -->
+	  <select id="getNoticeCnt" parameterType="pageVO" resultType="Integer">
+	  		select count(*) from notice where board_code = #{ board_code }
+	  </select>
+	  
+	  <!-- 게시글 작성 -->
+	  <insert id="insertNotice" parameterType="noticeVO">
+	  
+	  
+	  <!-- 게시글 작성후 작성한글의 상세보기 페이지로 이동하기 위해 selectKey 사용 --> 
+	  <!-- insert 쿼리 적용후 현재 시퀀스 값을 가져와서 설정한 keyProperty 값과 VO의 변수명이 일치하면 자동으로 vo에 저장 -->  
+	  <selectKey keyProperty="notice_num" resultType="String" order="AFTER">
+	  	select 
+	  		notice_num.currval
+	  	from 
+	  		dual
+	  </selectKey>
+	  
+	  
+	  	insert into notice 
+	  		(notice_num, board_code, userId, title, content, rep_dt <if test="parent_num != null">, parent_num </if>)
+		values 
+			(notice_num.nextval, #{board_code}, #{userId}, #{title}, #{content}, sysdate <if test="parent_num != null">, #{ parent_num } </if>)
+	  </insert>
+	  
+	  <!-- 게시글 조회 -->
+	  <select id="selectNotice" parameterType="String" resultType="noticeVO">
+	  		select /*+ INDEX(notice pk_notice) */ * from notice where notice_num = #{notice_num}
+	  </select>
+	  
+	  <!-- 게시글 삭제 -->
+	  <delete id="deleteNotice" parameterType="String">
+	  	delete from notice
+	  	 	where notice_num = #{notice_num}
+	  </delete>
+	  
+	  <!-- 게시글 수정 -->
+	  <update id="updateNotice" parameterType="noticeVO">
+	  	update notice set 
+	  	
+	  		title = #{title},
+	  		content = #{content},
+	  		rep_dt = sysdate
+	  		
+			where notice_num = #{notice_num}
+	  </update>
+	  
+</mapper>
